@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Datanalisis</title>
+    {% load static %} 
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"> 
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 700px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a, button {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #003366;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+        a:hover, button:hover {
+            background-color: #002244; 
+            transform: translateY(-2px);
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .resumen {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        .resumen table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .resumen th, .resumen td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .resumen th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{% block header %}DATANALISIS{% endblock %}</h1>
+
+        {% if view == 'home' %}
+            <a href="{% url 'up' %}">Upload CSV</a>
+        {% elif view == 'upload' %}
+            <h1>Upload CSV File</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="csv_file" required>
+                <button type="submit">Upload</button>
+            </form>
+        {% elif view == 'view' %}
+            <h1>CSV Analysis Result</h1>
+            <div class="resumen">
+                {{ resumen|safe }}
+            </div>
+            <a href="{% url 'home' %}">Back to Home</a>
+        {% endif %}
+    </div>
+</body>
+</html>
